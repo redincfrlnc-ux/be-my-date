@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You 💙</title>
+
+<style>
+  body {
+    text-align: center;
+    font-family: 'Comic Sans MS', cursive;
+    background: linear-gradient(to bottom, #dbeafe, #bfdbfe);
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  h1 {
+    margin-top: 80px;
+    font-size: 2.8em;
+    color: #1e3a8a;
+  }
+
+  #message {
+    font-size: 1.3em;
+    color: #2563eb;
+    margin-top: 20px;
+    min-height: 40px;
+  }
+
+  button {
+    padding: 15px 30px;
+    font-size: 18px;
+    margin: 20px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    position: absolute;
+    transition: 0.2s;
+  }
+
+  #yesBtn {
+    background-color: #2563eb;
+    color: white;
+    left: 40%;
+    top: 55%;
+  }
+
+  #noBtn {
+    background-color: #6b7280;
+    color: white;
+    left: 55%;
+    top: 55%;
+  }
+
+  .cat {
+    position: absolute;
+    font-size: 30px;
+    animation: float 4s infinite ease-in-out;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+  }
+
+  /* Heart explosion */
+  .heart {
+    position: absolute;
+    font-size: 20px;
+    animation: explode 1s forwards;
+  }
+
+  @keyframes explode {
+    0% {
+      transform: scale(1) translate(0,0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(2) translate(var(--x), var(--y));
+      opacity: 0;
+    }
+  }
+</style>
+
+</head>
+<body>
+
+<h1 id="question">Vienice Eby, can you be my date? 🥺💙</h1>
+<div id="message"></div>
+
+<button id="yesBtn">Yes 💙</button>
+<button id="noBtn">No 😢</button>
+
+<!-- Cats (black, white, orange vibes) -->
+<div class="cat" style="left:10%; top:20%;">🐈‍⬛</div> <!-- black -->
+<div class="cat" style="left:80%; top:30%;">🐈</div> <!-- white/orange -->
+<div class="cat" style="left:50%; top:10%;">🐾</div>
+
+<!-- Music -->
+<audio id="bgMusic" autoplay loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let noClickCount = 0;
+
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const message = document.getElementById("message");
+
+// Messages
+const messages = [
+  "Vienice Eby, are you sure? I’ll make you smile every day 💙",
+  "Even the cats think we’re perfect 🐈‍⬛💙",
+  "Come on Vienice Eby… imagine us together 😳✨",
+  "Vienice Eby + Me = Perfect combo 💙",
+  "Don’t do this to me, Vienice Eby 🥹",
+  "I’d choose you every time 💫",
+  "Even this blue theme is for you 💙",
+  "Vienice Eby… just say yes already 😏",
+  "You know you want to 😉💙",
+  "Plot twist: you were always going to say yes 😌"
+];
+
+// YES → HEART EXPLOSION
+yesBtn.onclick = function () {
+  document.getElementById("question").innerHTML = "YAYYY VIENICE!! 😭💙🐈";
+  message.innerHTML = "Best decision ever, Vienice Eby 💙";
+  noBtn.style.display = "none";
+
+  yesBtn.style.left = "50%";
+  yesBtn.style.top = "65%";
+
+  createHearts();
+};
+
+// HEARTS
+function createHearts() {
+  for (let i = 0; i < 40; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💙";
+
+    heart.style.left = "50%";
+    heart.style.top = "60%";
+
+    const x = (Math.random() - 0.5) * 400 + "px";
+    const y = (Math.random() - 0.5) * 400 + "px";
+
+    heart.style.setProperty('--x', x);
+    heart.style.setProperty('--y', y);
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 1000);
+  }
+}
+
+// NO BUTTON
+noBtn.onclick = function () {
+  noClickCount++;
+
+  const x = Math.random() * (window.innerWidth - 120);
+  const y = Math.random() * (window.innerHeight - 60);
+
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+
+  if (noClickCount <= 5) {
+    let scale = 1 - (noClickCount * 0.15);
+    noBtn.style.transform = `scale(${scale})`;
+  }
+
+  message.innerHTML = messages[Math.floor(Math.random() * messages.length)];
+};
+
+// MUSIC FIX
+document.body.addEventListener("click", () => {
+  document.getElementById("bgMusic").play();
+});
+</script>
+
+</body>
+</html>
